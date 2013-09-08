@@ -1,0 +1,47 @@
+class Solution {
+public:
+    map<int, pair<int, int> > seq; //used to store the answers for each number
+                                    //first max, second min;
+
+    int max;
+
+    int longestConsecutive(vector<int> &num) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        max = 0;
+        seq.clear();
+        
+        for (int i=0; i<num.size(); ++i)
+        {
+            seq[num[i]] = make_pair(1, 1);
+        }
+              
+        int cur;
+
+        for (auto i=seq.begin(); i!=seq.end(); ++i)
+        {
+            cur = i->first;
+            if (seq.find(cur+1) != seq.end()) //hit
+            {
+                //make the left ++
+                int curL = cur-seq[cur].second+1;
+                seq[curL].first += seq[cur+1].first;
+                //make the right ++
+                int curR = cur+1+seq[cur+1].first-1;
+                seq[curR].second += seq[cur].second;
+            }    
+        }
+
+        for (auto i=seq.begin(); i!=seq.end(); ++i)
+        {
+            cur = i->first;
+            if (seq[cur].first+seq[cur].second-1 > max)
+            {
+                max = seq[cur].first+seq[cur].second-1;
+            }
+        }
+
+
+        return max;
+    }
+};
