@@ -6,7 +6,7 @@ public:
         int len = triangle.size();
         int *_sum = new int[2*len];
         //int (*sum)[len]
-        int min = INT_MAX, index=0;
+        int min_ = INT_MAX, index=0;
         memset(_sum, 0, sizeof(int)*len*2);
         
         int (*sum)[len] = reinterpret_cast<int (*)[len]>(_sum);
@@ -23,10 +23,10 @@ public:
                 sum[1-index][j] = min(sum[index][j-1], sum[index][j])+triangle[i][j];
             }
         }
-        index = 1-index;
+
         for (int i=0; i<len; ++i)
-            if (sum[index][i] < min)
-                min = sum[index][i];
-        return min;
+            if (sum[index][i] < min_)
+                min_ = sum[index][i];
+        return min_;
     }
 };
