@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int minimumTotal(vector<vector<int> > &triangle) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int len = triangle.size();
+        int *_sum = new int[2*len];
+        //int (*sum)[len]
+        int min = INT_MAX, index=0;
+        memset(_sum, 0, sizeof(int)*len*2);
+        
+        int (*sum)[len] = reinterpret_cast<int (*)[len]>(_sum);
+        
+        if(triangle.empty())
+        return 0;
+        sum[index][0] = triangle[0][0];
+        for (int i=1; i<len; ++i, index=1-index) //steps
+        {
+            sum[1-index][i] = sum[index][i-1]+triangle[i][i]; 
+            sum[1-index][0] = sum[index][0]+triangle[i][0];
+            for(int j=1; j<=i-1; ++j)
+            {
+                sum[1-index][j] = min(sum[index][j-1], sum[index][j])+triangle[i][j];
+            }
+        }
+        index = 1-index;
+        for (int i=0; i<len; ++i)
+            if (sum[index][i] < min)
+                min = sum[index][i];
+        return min;
+    }
+};
