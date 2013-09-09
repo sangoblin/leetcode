@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int> > generate(int numRows) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<vector<int> > answer;
+        if (numRows <= 0)
+        return answer;
+        
+        for (int i=1; i<=numRows; ++i)
+        {
+            vector<int> tmpV;
+            if (answer.empty())
+            {
+                tmpV.push_back(1);
+                answer.push_back(tmpV);
+            }
+            else
+            {
+                int len = answer.size();
+                tmpV.push_back(1);
+                for (int j=0; j<answer[len-1].size()-1; ++j)
+                {
+                    int tmp = answer[len-1][j]+answer[len-1][j+1];
+                    tmpV.push_back(tmp);
+                }
+                tmpV.push_back(1);
+                answer.push_back(tmpV);
+            }           
+        }
+        return answer;
+    }
+};
