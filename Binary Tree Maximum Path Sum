@@ -11,30 +11,24 @@ class Solution {
 public:
     int sum;
     
-    pair<int, int> searchPathSum(TreeNode *root) //first max; second max including the root
+    int searchPath(TreeNode *root)
     {
- //       int max_ = INT_MIN;
         if (root == NULL)
-        {
-            return make_pair(0, 0);
-        }
-        
-        pair<int, int> left = searchPathSum(root->left);
-        pair<int, int> right = searchPathSum(root->right);
-        max = (left.second + root->val + right.second);
-        if (left.first > max)
-        max_ = left.first;
-        if (right.first > max)
-        max_ = right.first;
-        
-        return make_pair(max_, max(left.second, right.second)+root->val);
+            return 0;
+            
+        int left = searchPath(root->left);
+        int right = searchPath(root->right);
+        if (max(0, left)+root->val+max(right,0) > sum)
+            sum = max(left,0)+root->val+max(right,0);
+            
+        return max(max(left, right),0)+root->val;
     }
     
     int maxPathSum(TreeNode *root) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        sum = 0;
-        sum = searchPathSum(root);
+        sum = INT_MIN;
+        searchPath(root);
         return sum;
     }
 };
