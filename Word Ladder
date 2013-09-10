@@ -1,0 +1,77 @@
+class Solution {
+public:
+    int ladderLength(string start, string end, unordered_set<string> &dict) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        //first we insert the start and end into the set
+        dict.insert(start);
+        dict.insert(end);
+        
+        //we should build a graph to represent the weight
+        int len = dict.size(), slen = start.size();
+        if (len != slen)
+        return 0;
+        
+        int *path = new int[len];
+        bool *visited = new bool[len];
+        //memset(path, 0, sizeof(int)*len);
+        for (int i=0; i<len; ++i)
+        path[i] = INT_MAX/2;
+        memset(visited, 0, sizeof(bool)*len);
+        bool *graph_ = new bool[len*len];
+        memset(graph_, 0, sizeof(bool)*len*len);
+        bool (*graph)[len] = reinterpret_cast<bool (*)[len]>(graph_);
+        int cur = 0;
+        for (auto iter = dict.begin(); iter!=dict.end(); ++iter, ++cur)
+        {
+            //string tmpS = *iter;
+            for (int j=0; j<slen; ++j) //change every char char by char
+            {
+                //string tmpS = *iter;
+                for (char c='a'; c<='z'; ++c)
+                {
+                    string tmpS = *iter;
+                    tmpS.replace(j, 1, 1, c);
+                    auto exist = dict.find(tmpS);
+                    if (exist != dict.end())
+                    {
+                        int diff = distance(exist, iter);
+                        int dst = cur+diff;
+                        graph[cur][diff] = true;
+                    }
+                }
+            }
+        }//for auto
+        
+        //int startI = dict.find(start)-dict.begin();
+        int startI = distance(dict.find(start), dict.begin());
+        //int endI = dict.find(end)-dict.begin();
+        int endI = distance(dict.find(end), dict.begin());
+        //visited[startI] = true;
+        path[startI] = 0;
+        
+        queue<int> que;
+        que.push(startI);
+        
+        while (!que.empty())
+        {
+            int curQ = que.front();
+            que.pop();
+            visited[curQ] = true;
+            if (curQ == endI)
+                break;
+            for (int i=0; i<len; ++i)
+            {
+                if (!visited[i] && graph[curQ][i])
+                {
+                    que.push(i);
+                    path[i] = min(path[i], path[cur]+1);
+                }
+            }
+        }
+        if (path[endI] < INT_MAX/2)
+        return path[endI]+2;
+        else 
+        return 0;
+    }
+};
