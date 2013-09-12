@@ -35,18 +35,18 @@ public:
                     auto exist = dict.find(tmpS);
                     if (exist != dict.end())
                     {
-                        int diff = distance(exist, iter);
+                        int diff = distance(iter, exist);
                         int dst = cur+diff;
-                        graph[cur][diff] = true;
+                        graph[cur][dst] = true;
                     }
                 }
             }
         }//for auto
         
         //int startI = dict.find(start)-dict.begin();
-        int startI = distance(dict.find(start), dict.begin());
+        int startI = distance(dict.begin(), dict.find(start));
         //int endI = dict.find(end)-dict.begin();
-        int endI = distance(dict.find(end), dict.begin());
+        int endI = distance(ddict.begin(), dict.find(end));
         //visited[startI] = true;
         path[startI] = 0;
         
