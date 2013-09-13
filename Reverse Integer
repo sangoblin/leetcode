@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int reverse(int x) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+       string xs = to_string(x); 
+       int sign = (xs[0]=='-')?1:0;
+       std::reverse(xs.begin()+sign, xs.end());
+       int res = stoi(xs);
+       return res;
+    }
+};
