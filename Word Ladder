@@ -9,71 +9,51 @@ public:
         
         //we should build a graph to represent the weight
         int len = dict.size(), slen = start.size();
-        //if (len != slen)
-        //return 0;
-        
-        int *path = new int[len];
-        bool *visited = new bool[len];
-        //memset(path, 0, sizeof(int)*len);
-        for (int i=0; i<len; ++i)
-        path[i] = INT_MAX/2;
-        memset(visited, 0, sizeof(bool)*len);
-        unordered_set<string> graph;
-        
-        for (auto iter = dict.begin(); iter!=dict.end(); ++iter)
+
+        unordered_map<string, pair<int,bool> > idxD;
+        //unordered_map<string, bool> visited;
+        for (auto iter=dict.begin(); iter!=dict.end(); ++iter)
         {
-            //string tmpS = *iter;
-            for (int j=0; j<slen; ++j) //change every char char by char
-            {
-                //string tmpS = *iter;
-                for (char c='a'; c<='z'; ++c)
-                {
-                    string tmpS = *iter;
-                    tmpS.replace(j, 1, 1, c);
-                    auto exist = dict.find(tmpS);
-                    if (exist != dict.end())
-                    {
-                        //int diff = distance(iter, exist);
-                        //int dst = cur+diff;
-                        //graph[cur][dst] = true;
-                        graph.insert(*iter+tmpS);
-                    }
-                }
-            }
-        }//for auto
+            idxD[*iter].first = INT_MAX/2;
+            idxD[*iter].second = false;
+        }
         
-        //int startI = dict.find(start)-dict.begin();
-        int startI = distance(dict.begin(), dict.find(start));
-        //int endI = dict.find(end)-dict.begin();
-        int endI = distance(dict.begin(), dict.find(end));
-        //visited[startI] = true;
-        path[startI] = 1;
         
+        //int cur = 0;
+        idxD[start].first = 1;
         queue<string> que;
         que.push(start);
         
         while (!que.empty())
         {
-            string curQ_ = que.front();
+            string curS = que.front();
             que.pop();
-            int curQ = distance(dict.begin(), dict.find(curQ_));
-            visited[curQ] = true;
-            if (curQ == endI)
-                break;
-            //for (int i=0; i<len; ++i)
-            for (auto iter = dict.begin(); iter!=dict.end(); ++iter)
+            pair<int, bool> &tmpC = idxD[curS];
+            tmpC.second = true;
+            if (curS == end)
+            break;
+            int curL = tmpC.first;
+            for (int j=0; j<slen; ++j) //change every char char by char
             {
-                int i = distance(dict.begin(), dict.find(*iter));
-                if (!visited[i] && (graph.find(curQ_+*iter)!=graph.end()))
+                for (char c='a'; c<='z'; ++c)
                 {
-                    que.push(*iter);
-                    path[i] = min(path[i], path[curQ]+1);
+                    string tmpS = curS;
+                    tmpS.replace(j, 1, 1, c);
+                    auto exist = dict.find(tmpS);
+                    if (exist!=dict.end())
+                    {
+                        pair<int, bool> &tmpP = idxD[tmpS];
+                        if (!tmpP.second)
+                        {
+                            que.push(tmpS);
+                            tmpP.first = min(tmpP.first, curL+1);
+                        }
+                    }
                 }
             }
-        }
-        if (path[endI] < INT_MAX/2)
-        return path[endI];
-        else 
-        return 0;
+        }//for auto
+        
+
+        return (idxD[end].first<INT_MAX/2)?idxD[end].first:0;      
     }
 };
