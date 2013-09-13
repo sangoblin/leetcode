@@ -10,17 +10,15 @@ public:
         //we should build a graph to represent the weight
         int len = dict.size(), slen = start.size();
 
-        unordered_map<string, pair<int,bool> > idxD;
-        //unordered_map<string, bool> visited;
+        unordered_map<string, int > idxD;
+        unordered_map<string, bool> visited;
         for (auto iter=dict.begin(); iter!=dict.end(); ++iter)
         {
-            idxD[*iter].first = INT_MAX/2;
-            idxD[*iter].second = false;
+            idxD[*iter] = INT_MAX/2;
+            visited[*iter] = false;
         }
         
-        
-        //int cur = 0;
-        idxD[start].first = 1;
+        idxD[start] = 1;
         queue<string> que;
         que.push(start);
         
@@ -28,11 +26,9 @@ public:
         {
             string curS = que.front();
             que.pop();
-            pair<int, bool> &tmpC = idxD[curS];
-            tmpC.second = true;
             if (curS == end)
             break;
-            int curL = tmpC.first;
+            int curL = idxD[curS];
             for (int j=0; j<slen; ++j) //change every char char by char
             {
                 for (char c='a'; c<='z'; ++c)
@@ -40,20 +36,18 @@ public:
                     string tmpS = curS;
                     tmpS.replace(j, 1, 1, c);
                     auto exist = dict.find(tmpS);
-                    if (exist!=dict.end())
+                    if (exist!=dict.end() && !visited[tmpS])
                     {
-                        pair<int, bool> &tmpP = idxD[tmpS];
-                        if (!tmpP.second)
                         {
+                            visited[tmpS] = true;
                             que.push(tmpS);
-                            tmpP.first = min(tmpP.first, curL+1);
+                            idxD[tmpS] = min(idxD[tmpS], curL+1);
                         }
                     }
                 }
             }
-        }//for auto
-        
+        }//for auto        
 
-        return (idxD[end].first<INT_MAX/2)?idxD[end].first:0;      
+        return (idxD[end]<INT_MAX/2)?idxD[end]:0;      
     }
 };
