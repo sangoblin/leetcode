@@ -13,7 +13,7 @@ public:
         // DO NOT write int main() function
         //ListNode *res = l1;
         int c = 0;
-        ListNode *back;
+        ListNode *back, *res=l1;
         
         while (l1!=NULL && l2!=NULL)
         {
@@ -37,12 +37,12 @@ public:
             contin = contin->next;            
         }
         
-        if(!c)
+        if(c)
         {
             ListNode *high = new ListNode(c);
             back->next = high;
         }
 
-        return l1;
+        return res;
     }
-}
+};
