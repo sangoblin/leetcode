@@ -38,11 +38,9 @@ public:
                     auto exist = dict.find(tmpS);
                     if (exist!=dict.end() && !visited[tmpS])
                     {
-                        {
                             visited[tmpS] = true;
                             que.push(tmpS);
                             idxD[tmpS] = min(idxD[tmpS], curL+1);
-                        }
                     }
                 }
             }
