@@ -30,7 +30,7 @@ public:
         
         while (contin)
         {
-            int tmp = contin->val++c;
+            int tmp = contin->val+c;
             contin->val = tmp%10;
             c = tmp/10;
             back = contin;
