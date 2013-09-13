@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int maxL = 0, len = s.size(), start, j;
+        //bool *isPal_ = new bool[len*len];
+        //memset(isPal_, 0, sizeof(bool)*len*len);
+        //bool (*isPal)[len] = reinterpret_cast<bool (*)[len]>(isPal_);
+        
+        for (int odd = 0; odd <= 1; ++odd)
+            for (int i=0; i<len; ++i)
+            {
+                for (j=1-odd; i-j>=0 && i+j+odd<len; ++j)
+                    if (s[i-j] != s[i+j+odd])
+                        break;
+                if (2*j+odd-1>maxL)
+                {
+                    maxL = 2*j+odd-1;
+                    start = i-j+1;
+                }
+            }
+        
+        return s.substr(start, maxL);
+    }
+};
