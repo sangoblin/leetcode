@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string convert(string s, int nRows) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function    
+        string res;
+        int len=s.size();
+        s.reserve(len);
+        //int odd = (nRows%2==0)?0:1;
+        int idx = 1;
+        
+        if (nRows <= 1)
+            return s;
+        
+        for (int i=0; i<nRows; ++i)
+        {
+            if (i==0 || i==(nRows-1))
+            {
+              for (int j=0; i+(2*nRows-2)*j<len; ++j)
+                {
+                    res += s[i+(2*nRows-2)*j];
+                }
+            }
+            else
+            {
+                idx = 1;
+                for (int cur=i; cur<len; cur+=((2*nRows-2-2*i)*idx+(2*i)*(1-idx)), idx=1-idx)
+                {
+                    res += s[cur];
+                }
+            }
+        }
+        return res;
+    }
+};
