@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxArea(vector<int> &height) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int len = height.size();
+        
+        if (len < 2)
+            return 0;
+            
+        int start = 0, end = len-1, maxV = 0;
+        
+        while (start < end)
+        {
+            int h = min(height[start], height[end]);
+            maxV = max(maxV, h*(end-start));
+            if (height[start] < height[end])
+                ++start;
+            else
+                --end;
+        }
+        
+        return maxV;
+    }
+};
