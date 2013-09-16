@@ -33,13 +33,6 @@ public:
            half = len/2;
            even = 1-len%2;
            
-           if (n==0 && m==0)
-           return 0;          
-           else if (m == 0)
-           return even?(B[n/2-1]+B[n/2])/2.0:B[n/2];           
-           else if (n == 0)
-           return even?(A[m/2-1]+A[m/2])/2.0:A[m/2];          
-           
            for (i=1; i>=1-even; --i)
            {
                half += i;             
