@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int len, half, even, i;
+    double med[2];
+    bool search(int A[], int B[], int low, int high, int up)
+    {
+        if (low > high)
+            return false;
+        int k = low + (high-low)/2;
+        int left = half-k-2, right = half-k-1;
+        
+        if (right < 0) //too long, and after this right is ensured to be a positive
+            return search(A, B, low, k-1, up);
+        else if (left > up) // too short, and after this left is ensured to be less than up
+            return search(A, B, k+1, high, up);
+        
+        bool isL = left>=0?true:false, isR = right<=up?true:false;
+        
+        if (isL && A[k]<B[left])
+            return search(A, B, k+1, high, up);
+        if (isR && A[k]>B[right])
+            return search(A, B, low, k-1, up);
+        
+        med[i] = A[k];
+        return true;                
+    }
+    
+    double findMedianSortedArrays(int A[], int m, int B[], int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        
+           len = (n+m);
+           half = len/2;
+           even = 1-len%2;
+           
+           if (n==0 && m==0)
+           return 0;          
+           else if (m == 0)
+           return even?(B[n/2-1]+B[n/2])/2.0:B[n/2];           
+           else if (n == 0)
+           return even?(A[m/2-1]+A[m/2])/2.0:A[m/2];          
+           
+           for (i=1; i>=1-even; --i)
+           {
+               half += i;             
+               bool res = search(A, B, 0, m-1, n-1);
+               if (!res)
+                search(B, A, 0, n-1, m-1);
+               half -= i;
+           }
+            return even?(med[0]+med[1])/2.0:med[1];
+    }
+};
