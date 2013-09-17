@@ -1,0 +1,49 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        stack<char> sta;
+        int len = s.size();
+        char top;
+        
+        for (int i=0; i<len; ++i)
+        {
+            switch (s[i])
+            {
+                case '{':
+                case '[':
+                case '(': sta.push(s[i]);
+                          break;
+                case '}':
+                        if (sta.empty())
+                            return false;
+                         top = sta.top();
+                          sta.pop();
+                          if (top != '{')
+                            return false;
+                            break;
+                case ']':
+                        if (sta.empty())
+                            return false;
+                         top = sta.top();
+                          sta.pop();
+                          if (top != '[')
+                            return false;
+                            break;
+                case ')':
+                if (sta.empty())
+                            return false;
+                        top = sta.top();
+                          sta.pop();
+                          if (top != '(')
+                            return false;
+            }
+        }
+        
+        if (sta.empty())
+        return true;
+        else
+        return false;
+    }
+};
