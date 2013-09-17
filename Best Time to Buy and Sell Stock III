@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int maxProfit(vector<int> &prices) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        
+        int len = prices.size();
+        
+        if (len <= 1) return 0;
+        
+        int *maxF = new int[len];
+        memset(maxF, 0, sizeof(int)*len);
+        int *maxB = new int[len];
+        memset(maxB, 0, sizeof(int)*len);
+        
+        int minP = prices[0], maxP = 0;
+        for (int i=1; i<len; ++i)
+        {
+            if (prices[i]>minP)
+            {
+                int tmp = prices[i]-minP;
+                maxP = (tmp>maxP)?tmp:maxP;
+            }
+            else
+                minP = prices[i];
+            maxF[i] = maxP;
+        }
+        
+        minP = prices[len-1];
+        maxP = 0;
+        for (int i=len-1; i>=0; --i)
+        {
+            if (prices[i] < minP)
+            {
+                int tmp = minP-prices[i];
+                maxP = (tmp>maxP)?tmp:maxP;
+            }
+            else
+                minP = prices[i];
+            maxB[i] = maxP;
+        }
+        
+        for (int i=1; i<len-1; ++i)
+        {
+            if (maxF[i]+maxB[i]>maxP)
+            maxP = maxF[i]+maxB[i];
+        }
+        return max(maxF[len-1], maxP);
+    }
+};
