@@ -1,0 +1,27 @@
+class Solution {
+public:
+    static const string roman[][10];
+    
+    string intToRoman(int num) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function    
+        int digits[4], index = 3;
+        memset(digits, 0, sizeof(digits));
+        
+        while (num != 0)
+        {
+            digits[index--] = num%10;
+            num /= 10;
+        }
+        
+        string ans;
+        for (int i=0; i<4; ++i)
+            ans += roman[i][digits[i]];
+            
+        return ans;
+    }
+};
+
+const string Solution::roman[][10] =  {{"", "M", "MM", "MMM"}, {"","C", "CC", "CCC", "CD", "D", "DC", "DCC"
+    , "DCCC", "CM"}, {"", "X", "XX","XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"}, {"", "I", "II", "III", 
+    "IV", "V", "VI", "VII", "VIII", "IX"}};
