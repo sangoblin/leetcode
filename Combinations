@@ -1,0 +1,35 @@
+class Solution {
+public:
+
+    vector<vector<int> > ans;
+    int sk, upper;
+    
+    void search(int depth, int lower, vector<int> existed)
+    {
+        if (depth == sk)
+        {
+            ans.push_back(existed);
+            return;
+        }
+        
+        for (int i=lower; i<=upper; ++i)
+        {
+            existed.push_back(i);
+            search(depth+1, i+1, existed);
+            existed.erase(existed.end()-1);
+        }     
+    }
+    
+    vector<vector<int> > combine(int n, int k) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        ans.clear();
+        sk = k;
+        upper = n;
+        vector<int> first;
+        
+        search(0, 1, first);
+        
+        return ans;
+    }
+};
