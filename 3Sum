@@ -1,0 +1,66 @@
+class Self
+{
+public:
+    int val, i, j;
+    
+    friend bool operator > (const Self& left, const Self& right)
+    {
+        if (left.val>right.val)
+            return true;
+        else if (left.val == right.val)
+        {
+            if (left.i > right.i)
+            return true;
+            else if (left.i == right.i)
+                return left.j>right.j;
+            else
+            return false;
+        }
+        else
+            return false;
+    }
+    
+    
+    Self(int v, int ii, int jj) : val(v), i(ii), j(jj)
+    {}
+};
+
+class Solution {
+public:
+    vector<vector<int> > threeSum(vector<int> &num) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        priority_queue<Self, vector<Self>, greater<Self> > pq;
+        int len = num.size();
+        vector<vector<int> > ans;
+        
+        sort(num.begin(), num.end());
+        
+        for (int i=0; i<len-1; ++ i)
+            for (int j=i+1; j<len; ++j)
+            {
+                pq.push(Self(num[i]+num[j], i, j));
+            }
+        
+        for (int i=len-1; i>=0; --i)
+        {
+            while (!pq.empty())
+            {
+                Self tmpS = pq.top();
+                pq.pop();
+                
+                if (tmpS.j>=i || tmpS.val+num[i]<0)
+                    continue;
+                else if (tmpS.val+num[i] == 0)
+                    ans.push_back(vector<int>{num[tmpS.i], num[tmpS.j], num[i]}); 
+                else
+                {
+                    pq.push(tmpS);
+                    break;
+                }
+            }
+        }
+        ans.erase(unique(ans.begin(), ans.end()), ans.end());
+        return ans;
+    }
+};
