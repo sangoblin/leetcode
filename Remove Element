@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int removeElement(int A[], int n, int elem) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        //sort(A, A+n);
+        sort(A, A+n);
+        int num = count(A, A+n, elem);
+        int lower = static_cast<int*>(lower_bound(A, A+n, elem))-A;
+        
+        for (int i=lower; i<n-num; ++i)
+        {
+            A[i] = A[i+num];
+        }
+        
+        return n-num;
+    }
+};
