@@ -1,0 +1,62 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class compare
+{
+public:
+    bool operator () (pair<int, int> left, pair<int, int> right)
+    {
+        return (left.first>=right.first);
+    }
+};
+ 
+class Solution {
+public:
+    ListNode *mergeKLists(vector<ListNode *> &lists) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        priority_queue<pair<int,int>, vector<pair<int, int> >, compare> pq;
+        int lnum = lists.size();
+        
+        ListNode *res = NULL, *prev=NULL;
+        
+        for (int i=0; i<lnum; ++i)
+        {
+            if (lists[i])
+            {
+                pq.push(make_pair(lists[i]->val, i));
+                lists[i] = lists[i]->next;
+            }
+        }
+        
+        while (!pq.empty())
+        {
+            auto cur = pq.top();
+            pq.pop();
+            ListNode *can = new ListNode(cur.first);
+            if (!res)
+            {
+                res = can;
+                prev = res;
+            }
+            else
+            {
+                prev->next = can;
+                prev = prev->next;
+            }
+            if (lists[cur.second])
+            {
+                pq.push(make_pair(lists[cur.second]->val, cur.second));
+                lists[cur.second] = lists[cur.second]->next;
+            }
+        }
+        if (prev)
+            prev->next = NULL;
+        return res;
+    }
+};
