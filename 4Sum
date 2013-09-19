@@ -57,19 +57,11 @@ public:
                 ++i;
                 continue;
             }
-            else
+
+            prev = INT_MIN;
+            previ = i;
+            while (existed[i].v+existed[j].v==target && i<j)
             {
-                if (existed[i].j < existed[j].i)
-                {
-                    ans.push_back({num[existed[i].i], num[existed[i].j], 
-                    num[existed[j].i], num[existed[j].j]});
-                    prev = num[existed[i].i];
-                }
-                prev = INT_MIN;
-                    previ = i;
-                    ++i;
-                while (existed[i].v+existed[j].v==target && i<j)
-                {
                     if (existed[i].j<existed[j].i && num[existed[i].i]!=prev)
                     {
                         ans.push_back({num[existed[i].i], num[existed[i].j], 
@@ -77,10 +69,10 @@ public:
                         prev = num[existed[i].i];
                     }
                     ++i;
-                }
-                prev = num[existed[j].i];
-                while (j>1 && existed[j-1].v==existed[j].v)
-                {
+            }
+            prev = num[existed[j].i];
+            while (j>1 && existed[j-1].v==existed[j].v)
+            {
                     if (num[existed[j-1].i] != prev)
                     {
                         i = previ;
@@ -88,9 +80,8 @@ public:
                     }
                     else
                         --j;                 
-                }
-                --j;
             }
+            --j;
         }
         ans.erase(unique(ans.begin(), ans.end()), ans.end());
         return ans;
