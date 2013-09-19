@@ -1,0 +1,98 @@
+class Self
+{
+public:
+    int v;
+    int i, j;
+    
+    Self(int vv, int ii, int jj) : v(vv), i(ii), j(jj)
+    {}
+    
+    friend bool operator < (const Self& left, const Self& right)
+    {
+        if (left.v < right.v)
+            return true;
+        else if (left.v > right.v)
+            return false;
+        else
+        {
+            if (left.i < right.i)
+                return true;
+            else if (left.i > right.i)
+                return false;
+            else
+                return left.j<right.j;
+        }
+    }
+};
+
+
+class Solution {
+public:
+    vector<vector<int> > fourSum(vector<int> &num, int target) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int len = num.size(), prev, previ;
+        vector<Self> existed;
+        vector<vector<int> > ans;
+
+        sort (num.begin(), num.end());
+        
+        for (int i=0; i<len-1; ++i)
+            for (int j=i+1; j<len; ++j)
+                existed.push_back(Self(num[i]+num[j], i, j));
+
+        sort(existed.begin(), existed.end());
+        
+        len = existed.size();
+        
+        for (int i=0, j=len-1; j>i;)
+        {
+            if (existed[i].v+existed[j].v > target)
+            {
+                --j;
+                continue;
+            }
+            else if (existed[i].v+existed[j].v < target)
+            {
+                ++i;
+                continue;
+            }
+            else
+            {
+                if (existed[i].j < existed[j].i)
+                {
+                    ans.push_back({num[existed[i].i], num[existed[i].j], 
+                    num[existed[j].i], num[existed[j].j]});
+                    prev = num[existed[i].i];
+                }
+                prev = INT_MIN;
+                    previ = i;
+                    ++i;
+                while (existed[i].v+existed[j].v==target && i<j)
+                {
+                    if (existed[i].j<existed[j].i && num[existed[i].i]!=prev)
+                    {
+                        ans.push_back({num[existed[i].i], num[existed[i].j], 
+                                 num[existed[j].i], num[existed[j].j]});
+                        prev = num[existed[i].i];
+                    }
+                    ++i;
+                }
+                prev = num[existed[j].i];
+                while (j>1 && existed[j-1].v==existed[j].v)
+                {
+                    if (num[existed[j-1].i] != prev)
+                    {
+                        i = previ;
+                        break;
+                    }
+                    else
+                        --j;                 
+                }
+                --j;
+            }
+        }
+        ans.erase(unique(ans.begin(), ans.end()), ans.end());
+        return ans;
+    }
+};
