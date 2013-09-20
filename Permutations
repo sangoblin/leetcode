@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<vector<int> > ans;
+    
+    int len;
+    
+    void perKer(vector<int> num, int dep, vector<int> tmp)
+    {
+        //vector<int> numB = num;
+        if (dep == len)
+        {
+            ans.push_back(tmp);
+            return;
+        }
+        
+        int len = num.size();
+        
+        for (int i=0; i<len; ++i)
+        {
+            int back = num[i];
+            tmp.push_back(back);
+            num.erase(num.begin()+i);
+            perKer(num, dep+1, tmp);
+            num.insert(num.begin()+i, back);
+            tmp.erase(tmp.end()-1);
+        }
+    }
+
+    vector<vector<int> > permute(vector<int> &num) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        ans.clear();
+        len = num.size();
+        vector<int> tmp;
+        
+        perKer(num, 0, tmp);
+        return ans;
+    }
+};
