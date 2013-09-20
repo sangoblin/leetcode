@@ -15,7 +15,7 @@ public:
             else if (A[med] <= target)
                 low = med+1;
         }
-        if (A[high] == target)
+        if (high!=-1 && A[high] == target)
             end = high;
         else 
             return vector<int> {-1, -1};
