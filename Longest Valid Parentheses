@@ -23,7 +23,6 @@ public:
             }
             else
                 plen[i] = 0;
-
         }
         return maxL;
     }
