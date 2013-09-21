@@ -10,7 +10,6 @@ public:
     {
         if (sum == targetG)
         {
-            sort(tmp.begin(), tmp.end());
             ans.push_back(tmp);
             return;
         }
@@ -21,7 +20,7 @@ public:
         for (int i=0; i<=1 && i*candidatesG[start]+sum<=targetG; ++i)
         {
             vector<int> tmpV(i, candidatesG[start]);
-            tmpV.insert(tmpV.begin(), tmp.begin(), tmp.end());
+            tmpV.insert(tmpV.end(), tmp.begin(), tmp.end());
             search(start-1, sum+i*candidatesG[start], tmpV);
         }
     }
