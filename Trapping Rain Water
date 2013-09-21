@@ -12,13 +12,8 @@ public:
             shortbar = min(left, right);
             
             if (shortbar > prev)
-            {
-                int volume = (shortbar-prev)*(j-i+1);
-                for (int k=i; k<=j; ++k)
-                    if (A[k] > prev)
-                        volume -= min(shortbar-prev, A[k]-prev);
-                        
-                sum += volume;
+            {                                  
+                sum += (shortbar-prev)*(j-i+1);  ;
                 prev = shortbar;
             }
             
@@ -27,6 +22,8 @@ public:
             else
                 --j;            
         }
+        for (int k=0; k<n; ++k)
+                sum -= min(A[k], prev);
         return sum;
     }
 };
