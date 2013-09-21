@@ -12,9 +12,9 @@ public:
         
         for (int i=1; i<n; ++i)
         {
-            int len = num[index].size(), time = 1, j = 0;
+            int len = num[index].size(), time = 1;
             num[1-index].clear();
-            while (j<len)
+            for (int j=0; j<len; ++j)
             {
                 while (j+1<len && num[index][j+1]==num[index][j])
                 {
@@ -22,7 +22,6 @@ public:
                     ++time;
                 }
                 num[1-index] += to_string(time) += num[index][j];
-                ++j;
                 time = 1;
             }
             index = 1-index;
