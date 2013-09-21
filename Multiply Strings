@@ -1,0 +1,55 @@
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int l1 = num1.size(), l2 = num2.size(), carry = 0;
+        vector<int> n1(l1), n2(l2), ans;
+        string res;
+        
+        for (int i=0; i<l1; ++i)
+            n1[i] = num1[i]-'0';
+        for (int i=0; i<l2; ++i)
+            n2[i] = num2[i]-'0';
+        
+        for (int i=l2-1; i>=0; --i)
+        {
+            vector<int> tmpV;
+            carry = 0;
+            for (int j=l1-1; j>=0; --j)
+            {
+                int tmp = n2[i]*n1[j]+carry;
+                tmpV.insert(tmpV.begin(), tmp%10);
+                carry = tmp/10;
+            }
+            if (carry)
+                tmpV.insert(tmpV.begin(), carry);
+            
+            if (ans.empty())
+                ans = tmpV;
+            else
+            {               
+                carry = 0;
+                ans.insert(ans.begin(), 3, 0);
+                tmpV.insert(tmpV.begin(), 1, 0);
+                int la = ans.size(), lt = tmpV.size();
+                for (int j=la+i-l2, k=lt-1; j>=0 && k>=0; --j, --k)
+                {
+                    int tmp = ans[j]+tmpV[k]+carry;
+                    ans[j] = tmp%10;
+                    carry = tmp/10;
+                }                
+            }
+        }
+        while (!ans.empty() && ans[0]==0)
+            ans.erase(ans.begin());  
+        if (ans.empty())
+        return "0";
+        else
+        {
+            for (int i=0; i<ans.size(); ++i)
+                res += ans[i]+'0';
+            return res;
+        }
+    }
+};
