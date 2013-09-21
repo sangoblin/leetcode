@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<vector<int> > ans;
+    
+    int targetG, len;
+    
+    vector<int> candidatesG;
+    
+    void search(int start, int sum, vector<int>& tmp)
+    {
+        if (sum == targetG)
+        {
+            ans.push_back(tmp);
+            return;
+        }
+        
+        if (start>=len || sum>targetG)
+            return;
+        
+        for (int i=0; i*candidatesG[start]+sum<=targetG; ++i)
+        {
+            vector<int> tmpV(i, candidatesG[start]);
+            tmpV.insert(tmpV.begin(), tmp.begin(), tmp.end());
+            search(start+1, sum+i*candidatesG[start], tmpV);
+        }
+    }
+
+    vector<vector<int> > combinationSum(vector<int> &candidates, int target) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        ans.clear();
+        
+        targetG = target;
+        len = candidates.size();
+        
+        sort(candidates.begin(), candidates.end());
+        candidatesG = candidates;
+        vector<int> tmp;
+        
+        search(0, 0, tmp);
+        
+        return ans;
+    }
+};
