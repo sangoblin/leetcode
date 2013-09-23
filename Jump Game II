@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int jump(int A[], int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        if (n==0) return 0;
+        
+        vector<int> steps(n);
+        
+        fill(steps.begin(), steps.end(), INT_MAX);
+        steps[0] = 0;
+        
+        int cur = 0, prev = 0;
+        
+        for (int i=0; i<n; ++i)
+        {
+            cur = i+A[i];
+            
+            if (cur > prev)
+            {
+                for (int j=prev+1; j<min(cur+1, n); ++j)
+                    steps[j] = min(steps[j], steps[i]+1);
+                prev = cur;
+            }
+        }
+        return steps[n-1];
+    }
+};
