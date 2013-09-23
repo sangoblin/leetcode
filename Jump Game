@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool canJump(int A[], int n) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        vector<bool> reach(n);
+        fill (reach.begin(), reach.end(), false);
+        reach[0] = true;
+        int maxL = 0, prev = 0;
+        
+        for (int i=0; i<n; ++i)
+        {
+            if (!reach[i])
+                break;
+            else
+            {
+                maxL = i+A[i];
+                if (maxL >= n-1)
+                    return true;
+                else if (maxL > prev)
+                {
+                    for (int j=prev+1; j<=min(maxL,n-1); ++j)
+                        reach[j] = true;
+                    prev = maxL;
+                }
+            }
+        }
+        return reach[n-1];
+    }
+};
