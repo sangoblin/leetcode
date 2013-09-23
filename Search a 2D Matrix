@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int> > &matrix, int target) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int m = matrix.size();
+        if (m == 0)
+            return false;
+        int n = matrix[0].size();
+        
+        for (int i=0, j=n-1; i<m&&j>=0;)
+        {
+            if (target == matrix[i][j])
+                return true;
+            else if(target > matrix[i][j])
+                ++i;
+            else
+                --j;
+        }   
+        return false;
+    }
+};
