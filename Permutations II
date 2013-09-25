@@ -1,0 +1,42 @@
+class Solution {
+public:
+
+    vector<vector<int> > res;
+    
+    void search(vector<int>& num, vector<int> cur)
+    {
+        if (num.empty())
+        {
+            res.push_back(cur);
+            return;
+        }
+        
+        int prev = INT_MAX, len = num.size();
+    
+        for (int i=0; i<len; ++i)
+        {
+            if (num[i] == prev)
+                continue;
+            else
+            {
+                prev = num[i];
+                cur.push_back(num[i]);
+                num.erase(num.begin()+i);
+                search(num, cur);
+                num.insert(num.begin()+i, prev);
+                cur.pop_back();
+            }
+        }
+    }
+    
+    vector<vector<int> > permuteUnique(vector<int> &num) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        res.clear();
+        sort(num.begin(), num.end());
+        
+        vector<int> tmp;
+        search(num, tmp);
+        return res;
+    }
+};
