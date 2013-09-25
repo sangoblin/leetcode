@@ -1,0 +1,57 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int> > &matrix) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int m = matrix.size();
+        if (m == 0) return vector<int>();
+        int n = matrix[0].size(), dir = 1;
+        bool visited[m][n];
+        memset(visited, 0, m*n*sizeof(bool));
+        vector<int> ans;
+        
+        for (int i=0, j=0;;)
+        {
+            if (!visited[i][j]){
+                ans.push_back(matrix[i][j]);
+                visited[i][j] = true;
+            }
+            
+            if (ans.size() == m*n)
+                break;
+            
+            switch (dir)
+            {
+                case 1: ++j;
+                    if (j>=n || visited[i][j])
+                    {
+                        --j;
+                        dir = 2;
+                    }
+                    break;
+                case 2: ++i;
+                    if (i>=m || visited[i][j])
+                    {
+                        --i;
+                        dir = 3;
+                    }
+                    break;
+                case 3: --j;
+                    if (j<0 || visited[i][j])
+                    {
+                        ++j;
+                        dir = 4;
+                    }
+                    break;
+                case 4: --i;
+                    if (i<0 || visited[i][j])
+                    {
+                        ++i;
+                        dir = 1;
+                    }
+            }//switch
+
+        }//for
+      return ans;  
+    }
+};
