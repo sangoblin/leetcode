@@ -16,13 +16,8 @@ public:
             return false;
         
         if (root->left==NULL && root->right==NULL)
-            return sum==root->val;
-        
-        bool res = false;
-        if (root->left)
-            res = hasPathSum(root->left, sum-root->val);
-        if (root->right)
-            res |= hasPathSum(root->right, sum-root->val);
-        return res;
+            return sum==root->val;    
+
+        return hasPathSum(root->left, sum-root->val) || hasPathSum(root->right, sum-root->val);
     }
 };
