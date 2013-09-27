@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<int> > subsets(vector<int> &S) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int len = S.size(), total=1<<len;
+        vector<vector<int> > ans;
+        
+        sort(S.begin(), S.end());
+        
+        for (int i=0; i<total; ++i)
+        {
+            int index = i, cnt=0;
+            vector<int> tmpV;
+            
+            while (index)
+            {
+                if (index&0x01 == 1)
+                    tmpV.push_back(S[cnt]);
+                ++cnt;
+                index >>= 1;
+            }
+            ans.push_back(tmpV);
+        }
+        
+        return ans;
+    }
+};
