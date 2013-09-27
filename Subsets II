@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<vector<int> > subsetsWithDup(vector<int> &S) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int len = S.size(), prev, previ;
+        vector<vector<int> > ans;
+        sort(S.begin(), S.end());
+        if (len == 0)   return ans;
+        ans.push_back(vector<int>());
+        ans.push_back(vector<int>{S[0]});
+        prev = S[0];
+        previ = 0;
+        
+        for (int i=1; i<len; ++i)
+        {
+            int lenC = ans.size(), cnt = i-previ;
+            if (S[i] == prev)
+            {
+                for (int j=1; j<lenC; ++j)
+                {
+                    int lenI = ans[j].size(), cntI = 0;
+                    for (int k=lenI-1; k>=0; --k)
+                    {
+                        if (ans[j][k] == S[i])
+                            ++cntI;
+                        else
+                            break;
+                    }
+                    if (cntI >= cnt)
+                    {
+                        vector<int> tmpV = ans[j];
+                        tmpV.push_back(S[i]);
+                        ans.push_back(tmpV);
+                    }
+                }
+            }
+            else
+            {
+                prev = S[i];
+                previ = i;
+                for (int j=0; j<lenC; ++j)
+                {
+                        vector<int> tmpV = ans[j];
+                        tmpV.push_back(S[i]);
+                        ans.push_back(tmpV);
+                }
+            }
+        }//for
+        return ans;
+    }
+};
