@@ -16,7 +16,13 @@ public:
                 else if (tmp < 0)
                     ++j;
                 else
+                {
                     res.push_back(vector<int>{num[i], num[j++], num[k--]});
+                    while (j<k && num[j]==num[j-1])
+                        ++j;
+                    while (j<k && num[k]==num[k+1])
+                        --k;
+                }
             }
         sort(res.begin(), res.end());
         res.erase(unique(res.begin(), res.end()), res.end());
