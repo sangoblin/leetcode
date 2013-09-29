@@ -24,7 +24,6 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         int len = num.size();
-        if (len == 0)   return NULL;
         
         return a2BSTKernel(num, 0, len-1);
     }
