@@ -14,7 +14,7 @@ public:
     {
         if (ib>ie)  return NULL;
         TreeNode *root = new TreeNode(*pe);
-        auto index = find(ib, ie, root->val);
+        auto index = find(ib, ie+1, root->val);
         root->left = buildTreeKernel(ib, index-1, pb, pb+(index-ib)-1);
         root->right = buildTreeKernel(index+1, ie, pb+(index-ib), pe-1);
     }
