@@ -21,23 +21,18 @@ public:
         while (!zigzag.empty())
         {
             vector<int> tmpV;
-            stack<int> tmpS;
             while (cnt++ < cur)
             {
                 TreeNode *tmpN = zigzag.front();
                 zigzag.pop();
                 if (index == 1)
-                    tmpS.push(tmpN->val);
+                    tmpV.insert(tmpV.begin(), tmpN->val);
                 else
                     tmpV.push_back(tmpN->val);
                 if (tmpN->left)     zigzag.push(tmpN->left);
                 if (tmpN->right)    zigzag.push(tmpN->right);
             }
-            while (!tmpS.empty())
-            {
-                tmpV.push_back(tmpS.top());
-                tmpS.pop();
-            }
+            
             cnt = 0;
             index = 1-index;
             cur = zigzag.size();
