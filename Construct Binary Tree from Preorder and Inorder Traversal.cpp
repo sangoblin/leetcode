@@ -14,7 +14,7 @@ public:
         TreeNode *root = new TreeNode(preorder[beginP]);
         if (len == 1)   return root;
         else if (len == 0)  return NULL;
-        int index = find(inorder.begin(), inorder.end(), preorder[beginP])-inorder.begin()-beginI;
+        int index = find(inorder.begin()+beginI, inorder.begin()+beginI+len, preorder[beginP])-inorder.begin()-beginI;
         
         TreeNode *left = buildTreeKernel(preorder, inorder, beginP+1, index, beginI);
         TreeNode *right = buildTreeKernel(preorder, inorder, beginP+index+1, len-index-1, beginI+index+1);
