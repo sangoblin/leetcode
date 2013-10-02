@@ -50,7 +50,6 @@ public:
         for (int i=0; i<m; ++i)
             for (int j=0; j<n; ++j)
             {
-
                 res |= DFS(board, word, i, j, visited, never, 0);
                 if (res)
                     break;
