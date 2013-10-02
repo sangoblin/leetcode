@@ -5,7 +5,7 @@ public:
     int depth;
     Self(): again(0), depth(0) {}
 };
-
+//剪枝有bug
 class Solution {
 public:
     static const int dir[4][2];
