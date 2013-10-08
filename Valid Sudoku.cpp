@@ -2,7 +2,7 @@ class Solution {
 public:
 
     int m, n;
-    bool check(vvector<vector<char> > &board, int i, int j)
+    bool check(vector<vector<char> > &board, int i, int j)
     {
         for (int k=0; k<n; ++k)
             if (k!=j && board[i][k]==board[i][j])
