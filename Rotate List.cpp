@@ -11,7 +11,7 @@ public:
     ListNode *rotateRight(ListNode *head, int k) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        ListNode *prev, *back=head, *dummy = new ListNode(0);
+        ListNode *prev=head, *back=head;
         if (!head)  return head;
         int cnt = 1, len = 1;
         while (back->next)
@@ -19,22 +19,16 @@ public:
             ++len;
             back = back->next;
         }
+        
         k = k%len;
         if (k == 0) return head;
-        back = head;
-        while (cnt++<k && back->next)
-            back = back->next;
 
-        dummy->next = head;
-        prev = head;
-        while (back->next)
-        {
-            dummy = dummy->next;
+        while (cnt++<len-k)
             prev = prev->next;
-            back = back->next;
-        }
+      
         back->next = head;
-        dummy->next = nullptr;
-        return prev;
+        head = prev->next;
+        prev->next = nullptr;
+        return head;
     }
 };
