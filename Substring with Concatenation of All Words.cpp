@@ -6,45 +6,27 @@ public:
         int len = L.size(), lenS = S.size();
         if (!len)    return res;
         int lens = L[0].size(), cnt = 0;
-        unordered_map<string, int> dict;
+        map<string, int> dict, nd;
         for (int i=0; i<len; ++i)
             ++dict[L[i]];
-        auto nd = dict;
             
-        for (int i=0; i<lenS-lens+1; ++i)
+        for (int i=0; i<lenS-len*lens+1; ++i)
         {
-            string&& tmp = S.substr(i, lens);
-
-            bool found = false;
+            nd.clear();
             
-            if (nd.find(tmp) == nd.end())
+            bool found = true;
+            
+            for (int j=0; j<len; ++j)
             {
-                if (cnt)
+                string&& tmp = S.substr(i+j*lens, lens);
+                ++nd[tmp];
+                if (nd[tmp] > dict[tmp])
                 {
-                    i -= cnt*lens;
-                    cnt = 0;
-                    nd = dict;
+                    found = false;
+                    break;
                 }
-                continue;
             }
-            else
-            {
-                i += lens-1;
-                --nd[tmp];
-                if (nd[tmp] == 0)
-                    nd.erase(tmp);
-                ++cnt;
-            }
-            
-           if (cnt == len)
-           {
-                if (nd.empty())
-                    found = true;
-                nd = dict;
-                i -= cnt*lens-1;
-                cnt = 0;
-            }
-
+                        
             if (found)
                 res.push_back(i);
         }
