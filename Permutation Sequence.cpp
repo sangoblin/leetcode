@@ -12,7 +12,7 @@ public:
         fill(num, num+n, 0);
         for (int i=1; i<=n; ++i)
             fact[i] = i*fact[i-1];
-        if (k > fact[n])    return res;
+        if (k>fact[n] || k<=0)    return res;
         --k;
         while (k != 0)
         {
