@@ -6,7 +6,6 @@ public:
         int len = L.size(), lenS = S.size();
         if (!len)    return res;
         int lens = L[0].size(), cnt = 0;
-        vector<bool> visited(len, false);
         unordered_map<string, int> dict;
         for (int i=0; i<len; ++i)
             ++dict[L[i]];
