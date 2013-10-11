@@ -5,24 +5,21 @@ public:
         // DO NOT write int main() function
         string res = "/";
         path += '/';
-        int len = path.size(), cur = 0, start = 1, existed = 0, cnt = 0;
+        int len = path.size(), start = 1, cnt = 0;
         stack<int> loc;
         for (int i=1; i<len; ++i)
         {
-            if (res[cur] == '/')
+            if (*res.crbegin() == '/')
                 while (path[i]=='/' && i<len)
                     ++i;
                 
                 if (i>=len)
                     break;
+                    
                 switch (path[i])
                 {
-                    case '/':   res += '/';
-                                cur++;
-                                start = cur-cnt;
-                                cnt = 0;
+                    case '/':   res += '/'; start = res.size()-1-cnt; cnt = 0;
                                 loc.push(start);     
-                                ++existed;
                                 break;
                     case '.':   if (i+1<len && path[i+1]=='/')
                                 {
@@ -31,25 +28,21 @@ public:
                                 }
                                 else if (i+2<len && path[i+1]=='.' && path[i+2]=='/')
                                 {
-                                        if (existed >= 1)
+                                        if (!loc.empty())
                                         {
-                                            --existed;
                                             res.erase(res.begin()+start, res.end());          
                                             loc.pop();
-                                            start = !loc.empty()?loc.top():1;
-                                            cur = res.size()-1;                                            
+                                            start = !loc.empty()?loc.top():1;                                           
                                         }
                                         i += 2;
                                         break;
                                 }
-                    default:    res += path[i];
-                                ++cur;
-                                ++cnt;
+                    default:    res += path[i]; ++cnt;
                 }
         }
 
-        if (res.size()>1 && *res.crbegin()=='/')
-            res.pop_back();
+        if (res.size()>1 && *res.crbegin()=='/')    res.pop_back();
+        
         return res;
     }
 };
