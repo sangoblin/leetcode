@@ -25,11 +25,8 @@ public:
             final = ('\0'==*p);
             return final;
         }
-        else if (*p =='\0')
-            return *s=='\0';
-        else if (*p=='?' || *p==*s)
-            return isMatch(s+1, p+1);
-        else
-            return false;
+        else if (*p =='\0')     return *s=='\0';
+        else if (*p=='?' || *p==*s)     return isMatch(s+1, p+1);
+        else    return false;
     }
 };
