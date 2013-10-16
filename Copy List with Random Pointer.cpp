@@ -14,8 +14,9 @@ public:
         if (!head)  return nullptr;
         RandomListNode *res = new RandomListNode(head->label);
         record[head] = res;
+        record[nullptr] = nullptr;
         
-        while (head->next != nullptr)
+        while (head != nullptr)
         {
             RandomListNode *cur = record[head];
             
@@ -28,21 +29,17 @@ public:
                 record[head->next] = tmp;
             }
             
-            if (head->random)
+            if (record.find(head->random) != record.end())
+                cur->random = record[head->random];
+            else
             {
-                if (record.find(head->random) != record.end())
-                    cur->random = record[head->random];
-                else
-                {
-                    RandomListNode* tmp = new RandomListNode(head->random->label);
-                    cur->random = tmp;
-                    record[head->random] = tmp;
-                }
+                RandomListNode* tmp = new RandomListNode(head->random->label);
+                cur->random = tmp;
+                record[head->random] = tmp;
             }
-            
+
             head = head->next;
         }
-        record[head]->random = record[head->random];
         
         return res;
     }
