@@ -14,10 +14,10 @@ public:
         if (!root)  return;
         queue<TreeLinkNode*> level;
         level.push(root);
-        int len = 1;
+
         while (!level.empty())
         {
-            int cnt = 0;
+            int cnt = 0, len = level.size();
             TreeLinkNode* prev;
             while (cnt++ < len)
             {
@@ -28,11 +28,11 @@ public:
                     prev->next = tmp;
                     prev = prev->next;
                 }
+                
                 level.pop();
                 if (tmp->left)    level.push(tmp->left);
                 if (tmp->right)   level.push(tmp->right);
             }
-            len = level.size();
         }
     }
 };
