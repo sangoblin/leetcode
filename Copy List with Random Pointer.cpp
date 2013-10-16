@@ -15,15 +15,9 @@ public:
         RandomListNode *res = new RandomListNode(head->label);
         record[head] = res;
         
-        while (head != nullptr)
+        while (head->next != nullptr)
         {
             RandomListNode *cur = record[head];
-            
-            if (head->next == nullptr)
-            {
-                cur->random = record[head->random];
-                break;
-            }
             
             if (record.find(head->next) != record.end())
                 cur->next = record[head->next];
@@ -48,6 +42,8 @@ public:
             
             head = head->next;
         }
+        record[head]->random = record[head->random];
+        
         return res;
     }
 };
