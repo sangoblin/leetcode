@@ -14,26 +14,19 @@ public:
         map<int, UndirectedGraphNode*> record;
         queue<UndirectedGraphNode *> cand;
         cand.push(node);
-        UndirectedGraphNode *res = nullptr;
+        UndirectedGraphNode *res = new UndirectedGraphNode(node->label);
+        record[res->label] = res;
 
         while (!cand.empty())
         {
             UndirectedGraphNode *cur = cand.front();
             cand.pop();
             
-            UndirectedGraphNode *tmp;
-            if (record.find(cur->label) == record.end())
-                tmp = new UndirectedGraphNode(node->label);
-            else
-                tmp = record[cur->label];
-            record[cur->label] = tmp;
-            
-            if (!res)   res = tmp;
+            UndirectedGraphNode *tmp = record[cur->label];
             
             int len = cur->neighbors.size();
                 
             for (int i=0; i<len; ++i)
-            {
                 if (record.find(cur->neighbors[i]->label) == record.end())
                 {
                     cand.push(cur->neighbors[i]);
@@ -43,8 +36,8 @@ public:
                 }
                 else
                     tmp->neighbors.push_back(record[cur->neighbors[i]->label]);
-            }
         }
+        
         return res;
     }
 };
