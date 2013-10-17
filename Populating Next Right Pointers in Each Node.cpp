@@ -11,28 +11,25 @@ public:
     void connect(TreeLinkNode *root) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        if (!root)  return;
-        queue<TreeLinkNode*> level;
-        level.push(root);
-
-        while (!level.empty())
+        if (!root || !root->left)  return;
+        
+        auto parent = root, son = root->left;
+        
+        while (son)
         {
-            int cnt = 0, len = level.size();
-            TreeLinkNode* prev;
-            while (cnt++ < len)
+            auto back = son;
+            
+            while (son)
             {
-                auto tmp = level.front();
-                if (cnt == 1)   prev = tmp;
-                else
-                {
-                    prev->next = tmp;
-                    prev = prev->next;
-                }
-                
-                level.pop();
-                if (tmp->left)    level.push(tmp->left);
-                if (tmp->right)   level.push(tmp->right);
+                son->next = parent->right;
+                son = son->next;
+                parent = parent->next;
+                son->next = parent?parent->left:nullptr;
+                son = son->next;
             }
+            
+            parent = back;
+            son = parent->left;
         }
     }
 };
