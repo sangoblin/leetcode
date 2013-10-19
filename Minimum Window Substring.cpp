@@ -23,7 +23,7 @@ public:
         
         for (int i=0; i<len2; ++i)
             ++cnts[T[i]];
-        //back = cnts;
+        int style = cnts.size(), cur = 0;
         
         for (int i=0; i<len1; ++i)
         {
@@ -52,18 +52,12 @@ public:
                         }
                     }
                 }
+                else if (back[S[i]] == cnts[S[i]])
+                    ++cur;
             }
-            found = true;
-            for (auto iter = cnts.begin(); iter!=cnts.end(); ++iter)
-                if (iter->second > back[iter->first])
-                {
-                    found = false;
-                    break;
-                }
             
-            if (found)
+            if (cur == style)
             {
-                found = false;
                 if (i-start+1 < minL)
                 {
                     minL = i-start+1;
@@ -71,6 +65,7 @@ public:
                 }
                 idxstart.pop();
                 --back[S[start]];
+                --cur;
                 start = -1;
                 while (!idxstart.empty())
                 {
