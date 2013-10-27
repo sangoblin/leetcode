@@ -5,8 +5,6 @@ public:
         int len = words.size();
         vector<string> res;
         
-        if (0 == len)   return res;
-        
         for (int i=0; i<len; ++i)
         {
             int space = 0, cnt = i;
