@@ -4,21 +4,21 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         int cur = 0, maxS = 0, len=s.size();
-        if (s.empty())
-        return 0;
+        if (s.empty())  return 0;
+        unordered_map<char, int> record;
         maxS=cur= 1;
+        record[s[0]] = 0;
         for (int i=1; i<len; ++i)
         {
-            size_t found = s.substr(i-cur, cur).find(s[i]);
-            if (found == string::npos)
+            if (record.find(s[i])==record.end() || i-record[s[i]]>cur) 
             {
                 ++cur;
                 maxS = max(maxS, cur);
             }
-            else
-            {
-                cur -= found;
-            }
+            else if (i-record[s[i]] < cur)
+                cur = i-record[s[i]];
+                
+            record[s[i]] = i;        
         }
         
         return maxS;
