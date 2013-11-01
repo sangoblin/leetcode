@@ -20,16 +20,14 @@ public:
         }
         else if (left == len)
         {
-            s += ')';
-            genP(s, left, right+1);
+            while (s.size() != 2*len)
+                s += ')';
+            ans.push_back(s);
+            return;
         }
         else
-        {
             for (int i=0; i!=2; ++i)
-            {
                 genP(s+p[i], left+1-i, right+i);
-            }
-        }
     }
     
     vector<string> generateParenthesis(int n) {
