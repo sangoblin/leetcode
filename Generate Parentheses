@@ -1,39 +1,25 @@
 class Solution {
 public:
-
     vector<string> ans;
-    static const char p[2];
     int len;
     
     void genP(string s, int left, int right)
     {
-        if (left+right>=2*len)
+        if (left == len)
         {
-            ans.push_back(s);
+            ans.push_back(s.append(len-right, ')'));
             return;
         }
         
-        if (left == right)
-        {
-            s+='(';
-            genP(s, left+1, right);
-        }
-        else if (left == len)
-        {
-            while (s.size() != 2*len)
-                s += ')';
-            ans.push_back(s);
-            return;
-        }
-        else
-            for (int i=0; i!=2; ++i)
-                genP(s+p[i], left+1-i, right+i);
+        genP(s+'(', left+1, right);
+        
+        if (left > right)
+            genP(s+')', left, right+1);
     }
     
     vector<string> generateParenthesis(int n) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        int available;
         ans.clear();
         len = n;
         
@@ -43,4 +29,3 @@ public:
     }
 };
 
-const char Solution::p[2] = {'(', ')'};
