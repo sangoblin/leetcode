@@ -16,11 +16,10 @@ public:
                 for (int k=0; k<code[index].size(); ++k)
                 {
                     string tmp = ans[j]+code[index][k];                    
-                    //ans.push_back();
                     tmpV.push_back(tmp);
                 }
             }
-            ans = tmpV;
+            ans = move(tmpV);
         }
         return ans;
     }
