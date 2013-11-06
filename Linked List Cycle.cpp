@@ -18,10 +18,8 @@ public:
         {
             if (fast == slow)   return true;
             slow = slow->next;
-            if (nullptr == fast)    return false;
-            fast = fast->next;
-            if (nullptr == fast)    return false;
-            fast = fast->next;
+            if (nullptr==fast || nullptr==fast->next)    return false;
+            fast = fast->next->next;
         }
     }
 };
