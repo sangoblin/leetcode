@@ -3,16 +3,16 @@ public:
     int removeDuplicates(int A[], int n) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        int len = n;
-        for (int i=0, j=1; j<n; ++j)
-        {
-            if (A[i]!=A[j])
+        if (n <= 0) return 0;
+        int mark = 0, prev = A[0];
+        
+        for (int i=1; i<n; ++i)
+            if (A[i] != prev)
             {
-                A[++i] = A[j];
+                A[++mark] = A[i];
+                prev = A[i];
             }
-            else
-                --len;
-        }
-        return len;
+        
+        return mark+1;
     }
 };
