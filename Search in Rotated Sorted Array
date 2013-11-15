@@ -1,35 +1,37 @@
 class Solution {
 public:
-    int searchKernel(int A[], int start, int end, int target)
-    {
-        int low = start, high = end, med;
+    int search(int A[], int n, int target) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int low = 0, high = n-1, med;
         
         while (low <= high)
         {
             med = low+(high-low)/2;
-            if (A[med] == target)
+            
+            if (A[med] == target)  
                 return med;
-            else if (A[med]>target && (A[low]<A[high]))
-                    high = med-1;
-            else if (A[med]<target && A[low]<A[high])
-                    low = med+1;
-            else
+            else if (A[med] > target)
             {
-                int idx1 = searchKernel(A, start, med-1, target);
-                if (-1 != idx1) return idx1;
-                idx1 = searchKernel(A, med+1, end, target);
-                if (-1 != idx1) return idx1;
-                else return -1;
+                if (A[med]>=A[low] && A[low]>target)
+                {
+                    int val = search(A+med+1, high-med, target);
+                    return val==-1?-1:val+med+1;
+                }
+                else if ((A[med]>=A[low] && A[low]<=target) || A[med]<A[low])
+                    return search(A, med-low, target);
+            }
+            else if (A[med] < target)
+            {
+                if (A[med]<=A[high] && A[high]<target)
+                    return search(A, med-low, target);
+                else if ((A[med]<=A[high] && A[high]>=target) || A[med]>A[high])
+                {
+                    int val = search(A+med+1, high-med, target);
+                    return -1==val?-1:val+med+1;
+                }
             }
         }
         return -1;
-    }
-    
-    int search(int A[], int n, int target) {
-        // Start typing your C/C++ solution below
-        // DO NOT write int main() function
-        if (n < 0)  return -1;
-        else if (1 == n)    return A[0]==target?0:-1;
-        return searchKernel(A, 0, n-1, target);
     }
 };
