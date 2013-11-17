@@ -4,22 +4,17 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         vector<string> code {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        vector<string> ans{""}, tmpV;
+        vector<string> ans{""};
         int len = digits.size();
-
+        
         for (int i=0; i<len; ++i)
         {
-            tmpV.clear();
-            for (int j=0; j<ans.size(); ++j)
-            {
-                int index = digits[i]-'2';
-                for (int k=0; k<code[index].size(); ++k)
-                {
-                    string tmp = ans[j]+code[index][k];                    
-                    tmpV.push_back(tmp);
-                }
-            }
-            ans = move(tmpV);
+            auto tmp = move(ans);
+            ans.clear();
+            int len1 = tmp.size(), len2 = code[digits[i]-'2'].size();
+            for (int j=0; j<len1; ++j)
+                for (int k=0; k<len2; ++k)
+                    ans.push_back(tmp[j]+code[digits[i]-'2'][k]); 
         }
         return ans;
     }
