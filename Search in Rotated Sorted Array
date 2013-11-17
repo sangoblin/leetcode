@@ -14,22 +14,16 @@ public:
             else if (A[med] > target)
             {
                 if (A[med]>=A[low] && A[low]>target)
-                {
-                    int val = search(A+med+1, high-med, target);
-                    return val==-1?-1:val+med+1;
-                }
+                    low = med+1;
                 else if ((A[med]>=A[low] && A[low]<=target) || A[med]<A[low])
-                    return search(A, med-low, target);
+                    high = med-1;
             }
             else if (A[med] < target)
             {
                 if (A[med]<=A[high] && A[high]<target)
-                    return search(A, med-low, target);
+                    high = med-1;
                 else if ((A[med]<=A[high] && A[high]>=target) || A[med]>A[high])
-                {
-                    int val = search(A+med+1, high-med, target);
-                    return -1==val?-1:val+med+1;
-                }
+                    low = med+1;
             }
         }
         return -1;
