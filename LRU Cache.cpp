@@ -1,40 +1,86 @@
+class Node{
+public:
+    Node *prev, *next; //form a doubly linked list
+    int val, key;
+    Node(int x, int y) : val(x), key(y) {
+        prev = next = nullptr;
+    }
+};
+
 class LRUCache{
 private:
-    int capacity;
-    unordered_map<int, int> data;
-    vector<int> keys;
+    int capacity, size;
+    unordered_map<int, Node*> data;
+    Node *head, *tail;
     
 public:
     LRUCache(int capacity) {
        this->capacity = capacity; 
+       size = 0;
        data.clear();
-       keys.clear();
+       head = new Node(-1, -1);
+       tail = head;
     }
     
     int get(int key) {
         if (data.find(key) != data.end())
-        {
-            auto index = find(keys.begin(), keys.end(), key);
-            keys.erase(index);
-            keys.push_back(key);
-            return data[key];
-        }
+            return update(key)->val;
         else 
             return -1;
     }
     
     void set(int key, int value) {
         if (data.find(key) != data.end())
+            update(key)->val = value;
+        else if (size < capacity)
         {
-            auto index = find(keys.begin(), keys.end(), key);
-            keys.erase(index);
+            ++size;
+            insert(key, value);  
         }
-        else if (keys.size() >= capacity)
+        else
         {
-            data.erase(keys[0]);
-            keys.erase(keys.begin());
+            data.erase(head->next->key);
+            auto tmp = head->next;
+            head->next = tmp->next;
+            if (nullptr != tmp->next) tmp->next->prev = head;
+            else    tail = head;
+            delete tmp;
+            insert(key, value);
         }
-        keys.push_back(key);
-        data[key] = value;
+    }
+    
+    Node* update(int key)
+    {
+        auto cur = data[key];
+       
+        if (cur->next)
+        {
+            cur->prev->next = cur->next;
+            cur->next->prev = cur->prev;
+            tail->next = cur;
+            cur->prev = tail;
+            tail = cur;
+            tail->next = nullptr;
+        }
+        return cur;
+    }
+    
+    void insert(int key, int value)
+    {
+        auto tmp = new Node(value, key);
+        data[key] = tmp;
+        tail->next = tmp;
+        tmp->prev = tail;
+        tail = tmp;
+        tail->next = nullptr;
+    }
+    
+    ~LRUCache(){
+        while (head)
+        {
+            auto back = head->next;
+            delete head;
+            head = back;
+        }
     }
 };
