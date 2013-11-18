@@ -28,21 +28,13 @@ public:
         {
             auto index = find(keys.begin(), keys.end(), key);
             keys.erase(index);
-            keys.push_back(key);
-            data[key] = value;
         }
-        else if (keys.size() < capacity)
+        else if (keys.size() >= capacity)
         {
-            data[key] = value;
-            keys.push_back(key);
-        }
-        else
-        {
-            int tmp = keys[0];
+            data.erase(keys[0]);
             keys.erase(keys.begin());
-            keys.push_back(key);
-            data.erase(tmp);
-            data[key] = value;
         }
+        keys.push_back(key);
+        data[key] = value;
     }
 };
