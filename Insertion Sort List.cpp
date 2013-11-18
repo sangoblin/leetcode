@@ -19,12 +19,9 @@ public:
         while (cur)
         {
             auto tmp = dummy, back = cur->next;
-            while (tmp->next != cur)
-            {
-                if (tmp->next->val <= cur->val)
-                    tmp = tmp->next;
-                else break;
-            }
+            while (tmp->next!=cur && tmp->next->val<=cur->val)
+                tmp = tmp->next;
+
             if (tmp->next != cur)
             {
                 auto _tmp = tmp->next;
