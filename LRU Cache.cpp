@@ -6,14 +6,13 @@ public:
 
 class LRUCache{
 private:
-    int capacity, size;
+    int capacity;
     unordered_map<int, list<Node>::iterator> dict;
     list<Node> data;
     
 public:
     LRUCache(int capacity) {
        this->capacity = capacity; 
-       size = 0;
        dict.clear();
        data.clear();
     }
@@ -21,10 +20,9 @@ public:
     int get(int key) {
         if (dict.find(key) != dict.end())
         {
-            auto tmp = dict[key];
-            data.splice(data.begin(), data, tmp);
+            data.splice(data.begin(), data, dict[key]);
             dict[key] = data.begin();
-            return tmp->val;
+            return dict[key]->val;
         }
         else 
             return -1;
@@ -33,15 +31,12 @@ public:
     void set(int key, int value) {
         if (dict.find(key) != dict.end())
         {
-            auto tmp = dict[key];
-            data.splice(data.begin(), data, tmp);
-            tmp->val = value;
+            data.splice(data.begin(), data, dict[key]);
+            dict[key]->val = value;
         }    
         else 
         {
-            if (size < capacity)
-                ++size;
-            else
+            if (data.size() == capacity)
             {
                 dict.erase(data.back().key);
                 data.pop_back();
