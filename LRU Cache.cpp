@@ -22,8 +22,8 @@ public:
         if (dict.find(key) != dict.end())
         {
             auto tmp = dict[key];
-            data.splice(data.end(), data, tmp);
-            dict[key] = prev(data.end());
+            data.splice(data.begin(), data, tmp);
+            dict[key] = data.begin();
             return tmp->val;
         }
         else 
@@ -34,21 +34,20 @@ public:
         if (dict.find(key) != dict.end())
         {
             auto tmp = dict[key];
-            data.splice(data.end(), data, tmp);
+            data.splice(data.begin(), data, tmp);
             tmp->val = value;
         }    
-        else if (size < capacity)
+        else 
         {
-            ++size;
-            data.push_back(Node(key, value));
+            if (size < capacity)
+                ++size;
+            else
+            {
+                dict.erase(data.back().key);
+                data.pop_back();
+            }
+            data.push_front(Node(key, value));
         }
-        else
-        {
-            auto tmp = data.begin();
-            data.pop_front();
-            dict.erase(tmp->key);
-            data.push_back(Node(key, value));
-        }
-        dict[key] = prev(data.end());
+        dict[key] = data.begin();
     }
 };
