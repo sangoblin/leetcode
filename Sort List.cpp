@@ -28,20 +28,13 @@ public:
         
         while (number1>0 && number2>0)
         {
-            if (head1->val <= head2->val)
-            {
-                prev->next = head1;
-                prev = prev->next;
-                head1 = head1->next;
-                --number1;
-            }
-            else
-            {
-                prev->next = head2;
-                prev = prev->next;
-                head2 = head2->next;
-                --number2;
-            }
+            if (head1->val <= head2->val)   --number1;
+            else    --number2;
+            
+            auto cur = (head1->val<=head2->val)?&head1:&head2;
+            prev->next = *cur;
+            *cur = (*cur)->next;
+            prev = prev->next;
         }
         
         if (number1)
