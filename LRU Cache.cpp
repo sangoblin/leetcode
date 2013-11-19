@@ -1,86 +1,54 @@
 class Node{
 public:
-    Node *prev, *next; //form a doubly linked list
     int val, key;
-    Node(int x, int y) : val(x), key(y) {
-        prev = next = nullptr;
-    }
+    Node(int x, int y) : val(y), key(x) {} 
 };
 
 class LRUCache{
 private:
     int capacity, size;
-    unordered_map<int, Node*> data;
-    Node *head, *tail;
+    unordered_map<int, list<Node>::iterator> dict;
+    list<Node> data;
     
 public:
     LRUCache(int capacity) {
        this->capacity = capacity; 
        size = 0;
+       dict.clear();
        data.clear();
-       head = new Node(-1, -1);
-       tail = head;
     }
     
     int get(int key) {
-        if (data.find(key) != data.end())
-            return update(key)->val;
+        if (dict.find(key) != dict.end())
+        {
+            auto tmp = dict[key];
+            data.splice(data.end(), data, tmp);
+            dict[key] = prev(data.end());
+            return tmp->val;
+        }
         else 
             return -1;
     }
     
     void set(int key, int value) {
-        if (data.find(key) != data.end())
-            update(key)->val = value;
+        if (dict.find(key) != dict.end())
+        {
+            auto tmp = dict[key];
+            data.splice(data.end(), data, tmp);
+            tmp->val = value;
+        }    
         else if (size < capacity)
         {
             ++size;
-            insert(key, value);  
+            data.push_back(Node(key, value));
         }
         else
         {
-            data.erase(head->next->key);
-            auto tmp = head->next;
-            head->next = tmp->next;
-            if (nullptr != tmp->next) tmp->next->prev = head;
-            else    tail = head;
-            delete tmp;
-            insert(key, value);
+            auto tmp = data.begin();
+            data.pop_front();
+            dict.erase(tmp->key);
+            data.push_back(Node(key, value));
         }
-    }
-    
-    Node* update(int key)
-    {
-        auto cur = data[key];
-       
-        if (cur->next)
-        {
-            cur->prev->next = cur->next;
-            cur->next->prev = cur->prev;
-            tail->next = cur;
-            cur->prev = tail;
-            tail = cur;
-            tail->next = nullptr;
-        }
-        return cur;
-    }
-    
-    void insert(int key, int value)
-    {
-        auto tmp = new Node(value, key);
-        data[key] = tmp;
-        tail->next = tmp;
-        tmp->prev = tail;
-        tail = tmp;
-        tail->next = nullptr;
-    }
-    
-    ~LRUCache(){
-        while (head)
-        {
-            auto back = head->next;
-            delete head;
-            head = back;
-        }
+        dict[key] = prev(data.end());
     }
 };
