@@ -3,10 +3,14 @@ public:
     int reverse(int x) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-       string xs = to_string(x); 
-       int sign = (xs[0]=='-')?1:0;
-       std::reverse(xs.begin()+sign, xs.end());
-       int res = stoi(xs);
-       return res;
+        int sign = x>=0?1:-1, res = 0;
+        int64_t tmp = abs(static_cast<int64_t>(x));
+        
+        while (tmp)
+        {
+            res = 10*res+tmp%10;
+            tmp /= 10;
+        }
+        return res*sign;
     }
 };
