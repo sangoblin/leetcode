@@ -6,18 +6,10 @@ public:
         map<char, int> roman{{'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500},
         {'M', 1000}};
         
-        vector<char> romanC {'M', 'D', 'C', 'L', 'X', 'V', 'I'};
-        
-        int len = s.size(), lenC = romanC.size(), j, ans = 0;
+        int len = s.size(),  ans = 0;
         
         for (int i=0; i<len-1; ++i)
         {
-            for (j=0; j<lenC; ++j)
-            {
-                if (s[i] == romanC[j])
-                    break;
-            }
-
             if (s[i]=='C' && (s[i+1]=='M' || s[i+1]=='D'))
                 ans -= roman[s[i]];            
             else if (s[i]=='X' && (s[i+1]=='L' || s[i+1]=='C'))
