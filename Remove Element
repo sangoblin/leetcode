@@ -4,15 +4,16 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         //sort(A, A+n);
-        sort(A, A+n);
-        int num = count(A, A+n, elem);
-        int lower = static_cast<int*>(lower_bound(A, A+n, elem))-A;
+        int cnt = 0, prev = 0, cur = 0;
+        for (int i=0; i<n; ++i)
+            if (A[i] == elem)
+                ++cnt;
+        if (0 == cnt)   return n;
         
-        for (int i=lower; i<n-num; ++i)
-        {
-            A[i] = A[i+num];
-        }
-        
-        return n-num;
+        for (; cur<n; ++cur)
+            if (A[cur] != elem)
+                A[prev++] = A[cur];
+                
+        return prev;
     }
 };
