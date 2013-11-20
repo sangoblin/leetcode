@@ -3,18 +3,25 @@ public:
     vector<string> ans;
     int len;
     
-    void genP(string s, int left, int right)
+    void genP(string& s, int left, int right)
     {
         if (left == len)
         {
             ans.push_back(s.append(len-right, ')'));
+            s.erase(s.end()-len+right, s.end());
             return;
         }
         
-        genP(s+'(', left+1, right);
+        s += '(';
+        genP(s, left+1, right);
+        s.pop_back();
         
         if (left > right)
-            genP(s+')', left, right+1);
+        {
+            s.push_back(')');
+            genP(s, left, right+1);
+            s.pop_back();
+        }
     }
     
     vector<string> generateParenthesis(int n) {
@@ -22,8 +29,10 @@ public:
         // DO NOT write int main() function
         ans.clear();
         len = n;
+        string tmp;
+        tmp.reserve(2*n);
         
-        genP("", 0, 0); 
+        genP(tmp, 0, 0); 
         
         return ans;
     }
