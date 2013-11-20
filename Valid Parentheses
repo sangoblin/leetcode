@@ -9,41 +9,27 @@ public:
         
         for (int i=0; i<len; ++i)
         {
-            switch (s[i])
+            if ('('==s[i] || '['==s[i] || '{'==s[i])
+                sta.push(s[i]);
+            else
             {
-                case '{':
-                case '[':
-                case '(': sta.push(s[i]);
-                          break;
-                case '}':
-                        if (sta.empty())
-                            return false;
-                         top = sta.top();
-                          sta.pop();
-                          if (top != '{')
-                            return false;
-                            break;
-                case ']':
-                        if (sta.empty())
-                            return false;
-                         top = sta.top();
-                          sta.pop();
-                          if (top != '[')
-                            return false;
-                            break;
-                case ')':
-                if (sta.empty())
-                            return false;
-                        top = sta.top();
-                          sta.pop();
-                          if (top != '(')
-                            return false;
+                if (sta.empty())    return false;
+                else
+                {
+                    auto top = sta.top();
+                    switch (s[i])
+                    {
+                        case ')':   if ('(' != top) return false;
+                                    break;
+                        case ']':   if ('[' != top) return false;
+                                    break;
+                        case '}':   if ('{' != top) return false;
+                                    break;
+                    }
+                    sta.pop();
+                }
             }
         }
-        
-        if (sta.empty())
-        return true;
-        else
-        return false;
+        return sta.empty();
     }
 };
