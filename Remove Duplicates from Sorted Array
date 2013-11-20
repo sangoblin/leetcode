@@ -4,15 +4,15 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         if (n <= 0) return 0;
-        int mark = 0, prev = A[0];
+        int mark = 1, prev = A[0];
         
         for (int i=1; i<n; ++i)
             if (A[i] != prev)
             {
-                A[++mark] = A[i];
+                A[mark++] = A[i];
                 prev = A[i];
             }
         
-        return mark+1;
+        return mark;
     }
 };
