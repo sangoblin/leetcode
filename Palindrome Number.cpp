@@ -4,7 +4,7 @@ public:
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
         if (x<0)    return false;
-        long long res = 0, back = x;
+        int64_t res = 0, back = x;
         
         while (x)
         {
