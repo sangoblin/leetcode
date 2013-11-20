@@ -9,9 +9,6 @@ public:
         else if (strs.size() == 1)  return strs[0];
         
         minL = strs[0].size();
-        for (int i=1; i<len; ++i)
-            if (strs[i].size() > minL)
-                minL = strs[i].size();
         
         if (minL == 0)  return "";
         
