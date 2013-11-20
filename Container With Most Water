@@ -5,8 +5,7 @@ public:
         // DO NOT write int main() function
         int len = height.size();
         
-        if (len < 2)
-            return 0;
+        if (len < 2)    return 0;
             
         int start = 0, end = len-1, maxV = 0;
         
@@ -14,10 +13,8 @@ public:
         {
             int h = min(height[start], height[end]);
             maxV = max(maxV, h*(end-start));
-            if (height[start] < height[end])
-                ++start;
-            else
-                --end;
+            if (height[start] < height[end])    ++start;
+            else    --end;
         }
         
         return maxV;
