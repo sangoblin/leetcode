@@ -3,14 +3,13 @@ public:
     string countAndSay(int n) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        if (n <= 0)
-            return "";
+        if (n <= 0)     return "";
         
         int index = 0;
         vector<string> num(2);
         num[0] = "1";
         
-        for (int i=1; i<n; ++i)
+        for (int i=1; i<n; ++i, index = 1-index)
         {
             int len = num[index].size(), time = 1;
             num[1-index].clear();
@@ -24,7 +23,6 @@ public:
                 num[1-index] += to_string(time) += num[index][j];
                 time = 1;
             }
-            index = 1-index;
         }
         return num[index];
     }
