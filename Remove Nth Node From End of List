@@ -11,21 +11,21 @@ public:
     ListNode *removeNthFromEnd(ListNode *head, int n) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        ListNode *prev=head, *reH = head, *reT=head;
-        for (int i=0; i<n-1; ++i)
-            reT = reT->next;
-        
-        if (!reT->next)
-            return head->next;
-            
-        while (reT->next != NULL)
+        auto dummy = new ListNode(-1);
+        dummy->next = head;
+        auto prev = dummy, cur = dummy;
+        for (int i=0; i<n; ++i)
+            cur = cur->next;
+        while (cur->next)
         {
-            reT = reT->next;
-            prev = reH;
-            reH = reH->next;
+            cur = cur->next;
+            prev = prev->next;
         }
-        
-        prev->next = reH->next;
-        return head;
+        cur = prev->next;
+        prev->next = cur->next;
+        delete cur;
+        cur = dummy->next;
+        delete dummy;
+        return cur;
     }
 };
