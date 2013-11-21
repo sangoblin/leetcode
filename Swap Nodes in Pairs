@@ -11,25 +11,23 @@ public:
     ListNode *swapPairs(ListNode *head) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        ListNode *res=NULL, *forward = head, *back;
-
-        if (head==NULL)
-            return res;
+        auto res = head, prev = new ListNode(-1), back = head;
+        prev->next = head;
         
-        while (head!=NULL && head->next!=NULL)
+        if (!head || !head->next)   return res;
+        res = prev;
+        
+        while (head && head->next)
         {
-            if (!res) 
-                res = head->next;
             back = head->next->next;
-            forward->next = head->next;
-            forward = head;
             head->next->next = head;
+            prev->next = head->next;
+            head->next = back;
+            prev = head;
             head = back;
         }
-        if (!res)
-            res = head;
-        else
-            forward->next = head;
-        return res;
+        back = res->next;
+        delete res;
+        return back;
     }
 };
