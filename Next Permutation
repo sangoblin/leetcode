@@ -19,12 +19,9 @@ public:
         }
         
         for (j=len-1; j>i; --j)
-            if (num[j]>des)
-                break;
+            if (num[j]>des)     break;
         
-        num[i] ^= num[j];
-        num[j] ^= num[i];
-        num[i] ^= num[j];
+        num[i] ^= num[j] ^= num[i] ^= num[j];
         
         sort(num.begin()+i+1, num.end());
     }
