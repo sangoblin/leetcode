@@ -11,16 +11,17 @@ public:
         if (!len1)  return s2==s3;
         if (!len2)  return s1==s3;
         vector<vector<bool> > inter(len1+1, vector<bool>(len2+1, false));
-        inter[len1][len2] = true;
+
+        inter[0][0] = true;
         
-        for (int i=len1; i>=0; --i)
-            for (int j=len2; j>=0; --j)
+        for (int i=0; i<=len1; ++i)
+            for (int j=0; j<=len2; ++j)
             {
-                if (i-1>=0 && s1[i-1]==s3[i+j-1] && inter[i][j])
-                    inter[i-1][j] = true;
-                if (j-1>=0 && s2[j-1]==s3[i+j-1] && inter[i][j])
-                    inter[i][j-1] = true;
+                if (i<len1 && s1[i]==s3[i+j] && inter[i][j])
+                    inter[i+1][j] = true;
+                if (j<len2 && s2[j]==s3[i+j] && inter[i][j])
+                    inter[i][j+1] = true;
             }
-        return inter[0][0];
+        return inter[len1][len2];
     }
 };
